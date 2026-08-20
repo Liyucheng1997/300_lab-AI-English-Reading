@@ -2,7 +2,7 @@
 
 测词汇 → 定水平 → AI 出卷 → 自适应进阶。
 
-**🔗 在线使用：<https://liyucheng1997.github.io/ai-english-reading/>**（浏览器直连 Anthropic API，需在设置里填自己的 API Key，Key 只存本机）
+**🔗 在线使用：<https://liyucheng1997.github.io/300_lab-AI-English-Reading/>**（浏览器直连 Anthropic API，需在设置里填自己的 API Key，Key 只存本机）
 
 ## 功能
 
