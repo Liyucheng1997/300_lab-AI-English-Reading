@@ -43,7 +43,7 @@ export default function Settings({ settings, claudeStatus, onSave, onClose }) {
         <div className="field mt">
           <label>反代 / API 地址</label>
           <input
-            type="text" value={form.baseUrl} placeholder="http://127.0.0.1:8787"
+            type="text" value={form.baseUrl} placeholder="http://localhost:8787"
             onChange={e => setForm({ ...form, baseUrl: e.target.value.trim() })}
           />
         </div>

@@ -7,13 +7,18 @@ const SETTINGS_KEY = 'ai-reading-settings-v3'
 export const DEFAULT_SETTINGS = {
   model: '', // 留空 = 使用 claude CLI 的默认模型；也可填 claude-sonnet-5 / opus 等
   apiKey: 'unused', // 本机反代未启用鉴权时可填 unused
-  baseUrl: 'http://127.0.0.1:8787',
+  baseUrl: 'http://localhost:8787',
   apiModel: 'haiku',
 }
 
 export function loadSettings() {
   try {
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') }
+    const settings = { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') }
+    if (settings.baseUrl === 'http://127.0.0.1:8787') {
+      settings.baseUrl = 'http://localhost:8787'
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+    }
+    return settings
   } catch {
     return { ...DEFAULT_SETTINGS }
   }
