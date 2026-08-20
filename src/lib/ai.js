@@ -1,14 +1,14 @@
 // 出题支持两种后端，自动切换：
 // 1. 本地 Claude Code CLI（开发服务器 /api/generate → claude -p，走订阅额度，无需 Key）
-// 2. 浏览器直连 Anthropic API（线上 Pages 版，Key 只存本机 localStorage）
+// 2. 浏览器直连 Anthropic 兼容接口（默认调用本机 claude -p 反代）
 
-const SETTINGS_KEY = 'ai-reading-settings-v2'
+const SETTINGS_KEY = 'ai-reading-settings-v3'
 
 export const DEFAULT_SETTINGS = {
   model: '', // 留空 = 使用 claude CLI 的默认模型；也可填 claude-sonnet-5 / opus 等
-  apiKey: '', // 直连 API 模式使用
-  baseUrl: 'https://api.anthropic.com',
-  apiModel: 'claude-sonnet-5',
+  apiKey: 'unused', // 本机反代未启用鉴权时可填 unused
+  baseUrl: 'http://127.0.0.1:8787',
+  apiModel: 'haiku',
 }
 
 export function loadSettings() {
@@ -99,7 +99,7 @@ export async function generatePaper(config, settings, backend = 'cli') {
     if (!data.ok) throw new Error(data.error || 'claude 调用失败')
     return parsePaper(data.text)
   }
-  // 浏览器直连 Anthropic API
+  // 浏览器直连 Anthropic 兼容接口（本机反代或官方 API）
   const resp = await fetch(`${settings.baseUrl.replace(/\/$/, '')}/v1/messages`, {
     method: 'POST',
     headers: {

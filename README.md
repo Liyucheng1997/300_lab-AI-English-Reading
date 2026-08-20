@@ -2,7 +2,7 @@
 
 测词汇 → 定水平 → AI 出卷 → 自适应进阶。
 
-**🔗 在线使用：<https://liyucheng1997.github.io/300_lab-AI-English-Reading/>**（浏览器直连 Anthropic API，需在设置里填自己的 API Key，Key 只存本机）
+**🔗 在线使用：<https://liyucheng1997.github.io/300_lab-AI-English-Reading/>**（默认调用本机 `http://127.0.0.1:8787` 的 Claude Code 反代，走订阅额度）
 
 ## 功能
 
@@ -24,7 +24,7 @@ npm run dev
 ## AI 出题原理（两种后端，自动切换）
 
 - **本地开发（推荐，无需 API Key）**：出题请求由开发服务器转给本机的 **Claude Code CLI**（`claude -p < 出题prompt`），使用你已登录的 Claude 账号订阅额度。前提：本机已安装并登录 Claude Code（终端运行 `claude` 完成登录）。
-- **在线版（GitHub Pages）**：静态站点没有本地 CLI，浏览器**直连 Anthropic API**。在「⚙️ 设置」里填入自己的 API Key（只存 localStorage、不上传任何服务器）即可。
+- **在线版（GitHub Pages）**：默认浏览器直连本机 Claude Code 反代 `http://127.0.0.1:8787`，Key 填 `unused`，模型填 `haiku` / `sonnet` / `opus`；也可改成 Anthropic 官方 API。设置只存 localStorage。
 
 启动时应用会自动检测本地 CLI 是否可用：可用走 CLI；不可用且填了 Key 走直连 API；两者都没有则进入**演示模式**（内置样卷体验完整流程）。
 

@@ -21,7 +21,10 @@ export default function App() {
 
   useEffect(() => { checkClaude().then(setClaudeStatus) }, [])
   const backend = claudeStatus?.ok ? 'cli' : 'api' // 本地 CLI 优先，线上走浏览器直连 API
-  const aiReady = !!claudeStatus?.ok || !!settings.apiKey
+  const directReady = !!settings.apiKey && !!settings.baseUrl
+  const aiReady = !!claudeStatus?.ok || directReady
+  const directLabel = /^(https?:\/\/)?(localhost|127\.0\.0\.1)(:|\/|$)/.test(settings.baseUrl)
+    ? '本机 Claude 反代 ✓' : 'API 直连 ✓'
 
   async function handleGenerate(config) {
     setLastConfig(config)
@@ -57,7 +60,7 @@ export default function App() {
           {assessed && <span className="badge">词汇量 ≈{assessed.size}</span>}
           {claudeStatus && (
             <span className={`badge ${aiReady ? 'ok' : 'warn'}`}>
-              {claudeStatus?.ok ? '本地 Claude ✓' : aiReady ? 'API 直连 ✓' : '演示模式'}
+              {claudeStatus?.ok ? '本地 Claude ✓' : directReady ? directLabel : '演示模式'}
             </span>
           )}
           <button onClick={() => setShowSettings(true)}>⚙️ 设置</button>
