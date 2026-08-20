@@ -3,7 +3,7 @@ import { LEVELS } from '../data/vocabBands.js'
 import { SECTION_TYPES } from '../lib/ai.js'
 
 // 出题配置：水平（默认取评估结果）、题型与数量、话题
-export default function PaperConfig({ assessed, hasApiKey, onGenerate, onOpenSettings }) {
+export default function PaperConfig({ assessed, aiReady, onGenerate, onOpenSettings }) {
   const [levelIdx, setLevelIdx] = useState(() => {
     if (!assessed) return 3
     return Math.max(0, LEVELS.indexOf(assessed.level))
@@ -84,17 +84,17 @@ export default function PaperConfig({ assessed, hasApiKey, onGenerate, onOpenSet
         />
       </div>
 
-      {!hasApiKey && (
+      {!aiReady && (
         <p className="muted small">
-          ⚠️ 未配置 API Key，将使用<b>内置演示样卷</b>（固定内容）。
-          <button className="link no-print" onClick={onOpenSettings}>去设置 API Key</button>
-          即可用 AI 按需出题。
+          ⚠️ 未检测到本地 Claude CLI 且未配置 API Key，将使用<b>内置演示样卷</b>（固定内容）。
+          <button className="link no-print" onClick={onOpenSettings}>去设置</button>
+          （本地登录 Claude Code，或在设置中填入 Anthropic API Key，即可 AI 按需出题）。
         </p>
       )}
 
       <div className="row mt">
         <button className="primary big" disabled={selected.length === 0} onClick={submit}>
-          {hasApiKey ? '🪄 AI 生成试卷' : '查看演示样卷'}
+          {aiReady ? '🪄 AI 生成试卷' : '查看演示样卷'}
         </button>
       </div>
     </div>
